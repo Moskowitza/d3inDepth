@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>DC Trial</title>
+        <title>DC Trial</title>
 
     <link rel="stylesheet" type="text/css" href="css/dc.css" />
     <script src="https://d3js.org/d3-color.v1.min.js"></script>
@@ -45,6 +45,21 @@
     <form>
       <input class="robot-checkbox" type="checkbox"> A checkbox</input>
     </form>
-    <script src="js/circleSelection.js"></script>
+    <div>
+      	<svg width="760" height="190">
+            <g transform="translate(70, 20)">
+              <rect width="30" height="30" y="0" />
+              <rect width="30" height="30" y="40" />
+              <rect width="30" height="30" y="80" />
+              <rect width="30" height="30" y="120" />
+            </g>
+          </svg>
+        
+          <div>
+            <button onClick="update();">Click to update rect elements using function(d, i)</button>
+          </div>
+    </div>
+    <script src="js/circleSelection.js"></script>  
+    <script src="js/squareSelection.js"></script>
   </body>
 </html>
