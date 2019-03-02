@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DC Trial</title>
+
+    <link rel="stylesheet" type="text/css" href="css/dc.css" />
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="js/d3.js"></script>
+    <script src="js/crossfilter.js"></script>
+    <script src="js/dc.js"></script>
+  </head>
+
+  <body>
+    <a href="https://d3indepth.com/selections/">ref</a>
+    <div>
+      <svg width="750" height="140">
+        <g transform="translate(70,70)">
+          <circle r="40"></circle>
+          <circle r="40" cx="120"></circle>
+          <circle r="40" cx="240"></circle>
+          <circle r="40" cx="360"></circle>
+          <circle r="40" cx="480"></circle>
+        </g>
+      </svg>
+    </div>
+    <script>
+      d3.selectAll("circle")
+        .style("fill", "orange")
+        .attr("r", function() {
+          return 10 + Math.random() * 40;
+        });
+    </script>
+  </body>
+</html>
