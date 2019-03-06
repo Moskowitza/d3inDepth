@@ -1,16 +1,24 @@
-// http://athena-mh-dev.herokuapp.com/rest/getTemperaturesFromLatLng_degF?lat=36.2504&lng=-120.2071&startDate=2017-03-18&endDate=2017-07-16
+const chart = dc.lineChart('#tempLine');
+let tempDim;
+let tempDimGroup;
+let ndx;
+let dayArr;
 
-// {
-//     "station_id": 438,
-//     "site": "CIMIS2",
-//     "year": 2017,
-//     "month": 3,
-//     "day": 18,
-//     "date": "2017-03-18",
-//     "day_num": 0,
-//     "tmax": 77.8,
-//     "tmin": 51.1,
-//     "tavg": 63.2,
-//     "tavg_imputed": false,
-//     "distance_mi": 7.958218210135018
-//     },
+d3.json('data/tempData.json').then((data) => {
+  console.log(data.length);
+  dayArr = [...new Set(data.map(x => x.day))];
+  ndx = crossfilter(data);
+  tempDim = ndx.dimension(d => (d.tmax ? d.tmax : 0));
+  dayDim = ndx.dimension(d => d.date);
+  dayDimGroup = dayDim.group().reduceSum(d => d.tmax);
+  chart
+    .width(768)
+    .height(480)
+    .x(d3.scaleBand())
+    .xUnits(dc.units.ordinal)
+    .brushOn(false)
+    .yAxisLabel('This is the Y Axis!')
+    .dimension(dayDim)
+    .group(dayDimGroup);
+  chart.render();
+});

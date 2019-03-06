@@ -12,7 +12,7 @@ d3.json('data/tryThis.json', (error, data) => {
   const overlay = new google.maps.OverlayView();
 
   // Add the container when the overlay is added to the map.
-  overlay.onAdd = function () {
+  overlay.onAdd = function onAdd() {
     const layer = d3
       .select(this.getPanes().overlayLayer)
       .append('div')
@@ -20,7 +20,7 @@ d3.json('data/tryThis.json', (error, data) => {
 
     // Draw each marker as a separate SVG element.
     // We could use a single SVG, but what size would it have?
-    overlay.draw = function () {
+    overlay.draw = function draw() {
       const projection = this.getProjection();
       const padding = 10;
 

@@ -24,8 +24,8 @@
     "Soil_moisture_sensors_used_for_scheduling": null,
     "boundaryAcres": "199.078868446653",
     "FIELD_GEOM_GMAPS": {
-      "type ": "POLYGON",
-      "coords ": [
+      "type": "POLYGON",
+      "coords": [
         [-121.844054, 38.887505],
         [-121.843971, 38.893408],
         [-121.844043, 38.89363],
@@ -75,7 +75,7 @@
     "boundaryAcres": "105.22091683287",
     "FIELD_GEOM_GMAPS": {
       "type ": "POLYGON ",
-      "coords ": [
+      "coords": [
         [-121.844198, 38.887249],
         [-121.849443, 38.887259],
         [-121.854651, 38.887262],
@@ -137,8 +137,8 @@
     "Soil_moisture_sensors_used_for_scheduling": "yes",
     "boundaryAcres": "121.196723555658",
     "FIELD_GEOM_GMAPS": {
-      "type ": "POLYGON ",
-      "coords ": [
+      "type": "POLYGON ",
+      "coords": [
         [-121.523616, 38.270431],
         [-121.522082, 38.271762],
         [-121.52176, 38.271855],
@@ -179,8 +179,8 @@
     "Soil_moisture_sensors_used_for_scheduling": "yes",
     "boundaryAcres": "34.2464496621592",
     "FIELD_GEOM_GMAPS": {
-      "type ": "POLYGON ",
-      "coords ": [
+      "type": "POLYGON ",
+      "coords": [
         [-121.590575, 38.295524],
         [-121.590425, 38.295456],
         [-121.589652, 38.295355],
