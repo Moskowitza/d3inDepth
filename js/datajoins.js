@@ -20,3 +20,8 @@ const scores = [
     score: 48,
   },
 ];
+const s = d3.selectAll('circle');
+s.data(scores)
+  .attr('r', d => d.score)
+  .classed('high', d => d.score >= 40)
+  .attr('cx', (d, i) => i * 120);
