@@ -7,11 +7,11 @@ let dayArr;
 const margin = {
   top: 20,
   right: 20,
-  bottom: 70,
+  bottom: 10,
   left: 50,
 };
 const width = 960 - margin.left - margin.right;
-const height = 500 - margin.top - margin.bottom;
+const height = 300 - margin.top - margin.bottom;
 
 d3.json('data/tempData.json').then((data) => {
   console.log(data.length);
@@ -21,8 +21,8 @@ d3.json('data/tempData.json').then((data) => {
   dayDim = ndx.dimension(d => d.date);
   dayDimGroup = dayDim.group().reduceSum(d => d.tmax);
   chart
-    .width(768)
-    .height(480)
+    .width(width + margin.left + margin.right)
+    .height(height + margin.top + margin.bottom)
     .x(d3.scaleBand())
     .mouseZoomable(true)
     .xUnits(dc.units.ordinal)
@@ -35,9 +35,11 @@ d3.json('data/tempData.json').then((data) => {
     chart
       .selectAll('g.x text')
       .style('text-anchor', 'end')
-      .attr('dx', '-.8em')
-      .attr('dy', '.15em')
-      .attr('transform', 'rotate(-65)');
+      .attr('y', 0)
+      .attr('x', -65)
+      .attr('dy', '.35em')
+      .attr('transform', 'rotate(-70)')
+      .style('text-anchor', 'start');
   });
   chart.render();
 });
