@@ -3,6 +3,15 @@ let tempDim;
 let tempDimGroup;
 let ndx;
 let dayArr;
+// set the dimensions and margins of the graph
+const margin = {
+  top: 20,
+  right: 20,
+  bottom: 70,
+  left: 50,
+};
+const width = 960 - margin.left - margin.right;
+const height = 500 - margin.top - margin.bottom;
 
 d3.json('data/tempData.json').then((data) => {
   console.log(data.length);
@@ -15,10 +24,20 @@ d3.json('data/tempData.json').then((data) => {
     .width(768)
     .height(480)
     .x(d3.scaleBand())
+    .mouseZoomable(true)
     .xUnits(dc.units.ordinal)
     .brushOn(false)
     .yAxisLabel('This is the Y Axis!')
     .dimension(dayDim)
     .group(dayDimGroup);
+  chart.renderlet((chart) => {
+    // rotate x-axis labels
+    chart
+      .selectAll('g.x text')
+      .style('text-anchor', 'end')
+      .attr('dx', '-.8em')
+      .attr('dy', '.15em')
+      .attr('transform', 'rotate(-65)');
+  });
   chart.render();
 });
