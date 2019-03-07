@@ -14,7 +14,15 @@ const width = 960 - margin.left - margin.right;
 const height = 300 - margin.top - margin.bottom;
 
 d3.json('data/tempData.json').then((data) => {
-  console.log(data.length);
+  const startDate = `${data[0].year}, ${data[0].month}, ${data[0].day}`;
+  const dlength = data.length;
+  timeScale = d3
+    .scaleTime()
+    .domain([
+      new Date(data[0].year, data[0].month, data[0].day),
+      new Date(data[dlength - 1].year, data[dlength - 1].month, data[dlength - 1].day),
+    ])
+    .range([0, 700]);
   dayArr = [...new Set(data.map(x => x.day))];
   ndx = crossfilter(data);
   tempDim = ndx.dimension(d => (d.tmax ? d.tmax : 0));

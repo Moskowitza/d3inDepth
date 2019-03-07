@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <title>Time scale</title>
+</head>
+
+<style>
+body {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 10px;
+  color: #333;
+}
+text {
+	fill: black;
+	text-anchor: middle;
+}
+</style>
+
+<body>
+  <svg width="800" height="80">
+  	<g id="wrapper" transform="translate(40, 40)">
+  	</g>
+  </svg>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
+  <script>
+var timeScale = d3.scaleTime()
+  .domain([new Date(2016, 0, 1), new Date(2017, 0, 1)])
+	.range([0, 700]);
+
+var myData = [new Date(2016, 0, 1), new Date(2016, 3, 1), new Date(2016, 6, 1), new Date(2017, 0, 1)];
+
+d3.select('#wrapper')
+	.selectAll('circle')
+	.data(myData)
+	.enter()
+	.append('circle')
+	.attr('r', 2)
+	.attr('cy', 8)
+	.attr('cx', function(d) {
+		return timeScale(d);
+	});
+
+d3.select('#wrapper')
+	.selectAll('text')
+	.data(myData)
+	.enter()
+	.append('text')
+	.attr('x', function(d) {
+		return timeScale(d);
+	})
+	.text(function(d) {
+		return d.toDateString();
+	});
+
+  </script>
+</body>
+</html>
