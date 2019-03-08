@@ -37,22 +37,22 @@ const data = [
 // Define our scales
 const yScale = d3
   .scaleLinear()
-  .domain([0, 1])
-  .range([150, 0]);
+  .domain([0, 800])
+  .range([200, 0]);
 
 // make an area generator
 const areaGenerator = d3
   .area()
   .x((d, i) => i * 100) // x value is index
   .y0(d => yScale(d[0])) // baseline
-  .y1(d => yScale(d[1])); // top line
-
+  .y1(d => yScale(d[1])) // top line
+  .curve(d3.curveCatmullRom);
 // DEFINE THE STACK
 const stack = d3
   .stack()
-  .keys(['apricots', 'blueberries', 'cherries'])
-  .offset(d3.stackOffsetExpand);
-//   .order(d3.stackOrderDescending); // largest on the bottom
+  .keys(['apricots', 'blueberries', 'cherries']) //   .offset(d3.stackOffsetExpand);
+  .order(d3.stackOrderInsideOut)
+  .offset(d3.stackOffsetWiggle); // largest on the bottom
 
 //   pass data to ourStack
 const ourStack = stack(data);
@@ -60,9 +60,9 @@ const ourStack = stack(data);
 d3.select('#stackGenerator')
   .append('svg')
   .attr('width', 700)
-  .attr('height', 150)
+  .attr('height', 170)
   .append('g')
-  .attr('transform', 'translate(20, 0)');
+  .attr('transform', 'translate(20, -50)');
 
 d3.select('g')
   .selectAll('path')
