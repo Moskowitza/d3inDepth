@@ -19,7 +19,7 @@ const xScale = d3
 
 const yScale = d3
   .scaleLinear()
-  .domain(extent)
+  .domain(extent) // yScale called with extent
   .range([150, 0]);
 
 const lineGenerator = d3
@@ -194,9 +194,7 @@ const g = d3
   .attr('width', '700px')
   .attr('height', '200px')
   .selectAll('g.series')
-
-// Create a g element for each series
-
+  // Create a g element for each series
   .data(stackedSeries)
   .enter()
   .append('g')
