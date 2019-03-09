@@ -31,11 +31,11 @@ d3.select('g')
 
 //   Pie Chart
 const pieData1 = [
-  { startAngle: 0, endAngle: 0.2 },
-  { startAngle: 0.2, endAngle: 0.6 },
-  { startAngle: 0.6, endAngle: 1.4 },
-  { startAngle: 1.4, endAngle: 3 },
-  { startAngle: 3, endAngle: 2 * Math.PI },
+  { label: 'A', startAngle: 0, endAngle: 0.2 },
+  { label: 'N', startAngle: 0.2, endAngle: 0.6 },
+  { label: 'X', startAngle: 0.6, endAngle: 1.4 },
+  { label: 'Z', startAngle: 1.4, endAngle: 3 },
+  { label: 'F', startAngle: 3, endAngle: 2 * Math.PI },
 ];
 // arc Generator
 const arcGenerator1 = d3
@@ -49,7 +49,7 @@ const arcGenerator1 = d3
 d3.select('#pie1')
   .append('svg')
   .attr('width', 700)
-  .attr('height', 170)
+  .attr('height', 300)
   .append('g')
   .classed('pie', true)
   .attr('transform', 'translate(300, 110)');
@@ -58,4 +58,18 @@ d3.select('g.pie')
   .data(pieData1)
   .enter()
   .append('path')
-  .attr('d', arcGenerator1);
+  .attr('d', arcGenerator1)
+  .style('fill', colors[0]);
+d3.select('g.pie')
+  .selectAll('text')
+  .data(pieData1)
+  .enter()
+  .append('text')
+  .each((d, i, nodes) => {
+    const centroid = arcGenerator.centroid(d);
+    d3.select(nodes[i]) // NODES[I] Allows us to select the current node instead of Lexical This
+      .attr('x', centroid[0])
+      .attr('y', centroid[1])
+      .attr('dy', '0.33em')
+      .text(d.label);
+  });
