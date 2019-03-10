@@ -70,6 +70,92 @@ function draw(data) {
 
   // Add the Y Axis
   svg.append('g').call(d3.axisLeft(yScale));
+
+  // Mouse Movement
+  const mouseG = svg.append('g').attr('class', 'mouse-over-effects');
+
+  mouseG
+    .append('path') // this is the black vertical line to follow mouse
+    .attr('class', 'mouse-line')
+    .style('stroke', 'black')
+    .style('stroke-width', '1px')
+    .style('opacity', '0');
+
+  const lines = document.getElementsByClassName('line');
+
+  const mousePerLine = mouseG
+    .selectAll('.mouse-per-line')
+    .data(data)
+    .enter()
+    .append('g')
+    .attr('class', 'mouse-per-line');
+
+  mousePerLine
+    .append('circle')
+    .attr('r', 7)
+    .style('stroke', colors[0])
+    .style('fill', 'none')
+    .style('stroke-width', '1px')
+    .style('opacity', '0');
+
+  mousePerLine.append('text').attr('transform', 'translate(10,3)');
+
+  mouseG
+    .append('svg:rect') // append a rect to catch mouse movements on canvas
+    .attr('width', width) // can't catch mouse events on a g element
+    .attr('height', height)
+    .attr('fill', 'none')
+    .attr('pointer-events', 'all')
+    .on('mouseout', () => {
+      // on mouse out hide line, circles and text
+      d3.select('.mouse-line').style('opacity', '0');
+      d3.selectAll('.mouse-per-line circle').style('opacity', '0');
+      d3.selectAll('.mouse-per-line text').style('opacity', '0');
+    })
+    .on('mouseover', () => {
+      // on mouse in show line, circles and text
+      d3.select('.mouse-line').style('opacity', '1');
+      d3.selectAll('.mouse-per-line circle').style('opacity', '1');
+      d3.selectAll('.mouse-per-line text').style('opacity', '1');
+    })
+    .on('mousemove', (d, i, nodes) => {
+      // mouse moving over canvas
+      const mouse = d3.mouse(nodes[i]);
+      d3.select('.mouse-line').attr('d', () => {
+        let d = `M${mouse[0]},${height}`;
+        d += ` ${mouse[0]},${0}`;
+        return d;
+      });
+
+      d3.selectAll('.mouse-per-line').attr('transform', (d, i, nodes) => {
+        console.log(width / mouse[0]);
+        const xDate = xScale.invert(mouse[0]);
+        const bisect = d3.bisector(d => d.date).right;
+        idx = bisect(d.tmax, xDate);
+
+        let beginning = 0;
+
+        let end = lines[i].getTotalLength();
+        let target = null;
+
+        while (true) {
+          target = Math.floor((beginning + end) / 2);
+          pos = lines[i].getPointAtLength(target);
+          if ((target === end || target === beginning) && pos.x !== mouse[0]) {
+            break;
+          }
+          if (pos.x > mouse[0]) end = target;
+          else if (pos.x < mouse[0]) beginning = target;
+          else break; // position found
+        }
+
+        d3.select(nodes[i])
+          .select('text')
+          .text(yScale.invert(pos.yScale).toFixed(2));
+
+        return `translate(${mouse[0]},${pos.y})`;
+      });
+    });
 }
 
 d3.json('data/getTemp.json').then((data) => {
