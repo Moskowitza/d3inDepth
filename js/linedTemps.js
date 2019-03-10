@@ -20,14 +20,14 @@ const yScale = d3.scaleLinear().range([height, 0]);
 // define the line
 const valueline = d3
   .line()
-  .defined(d => d.tmin !== null)
+  .defined(d => d.tmin)
   .x(d => xScale(d.date))
   .y(d => yScale(d.tmin));
 
 // define the line
 const valueline2 = d3
   .line()
-  .defined(d => d.tmax !== null)
+  .defined(d => d.tmax)
   .x(d => xScale(d.date))
   .y(d => yScale(d.tmax));
 
