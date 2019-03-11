@@ -136,6 +136,7 @@ function draw(data) {
         let beginning = 0;
 
         let end = lines[i].getTotalLength();
+        console.log(`end ${end}`);
         let target = null;
 
         while (true) {
@@ -151,7 +152,7 @@ function draw(data) {
 
         d3.select(nodes[i])
           .select('text')
-          .text(yScale.invert(pos.yScale).toFixed(2));
+          .text(yScale.invert(pos.y).toFixed(2));
 
         return `translate(${mouse[0]},${pos.y})`;
       });
