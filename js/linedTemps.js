@@ -56,12 +56,14 @@ function draw(data) {
     .data([data])
     .attr('class', 'line')
     .attr('d', valueline);
+
   // Add the valueline path.
   svg
     .append('path')
     .data([data])
     .attr('class', 'line')
     .attr('d', valueline2);
+
   // Add the X Axis
   svg
     .append('g')
@@ -70,6 +72,28 @@ function draw(data) {
 
   // Add the Y Axis
   svg.append('g').call(d3.axisLeft(yScale));
+
+  // Add Legend
+  const legend_keys = ['Max Temp', 'Min Temp'];
+
+  const lineLegend = svg
+    .selectAll('.lineLegend')
+    .data(legend_keys)
+    .enter()
+    .append('g')
+    .attr('class', 'lineLegend')
+    .attr('transform', (d, i) => `translate(50, ${i * 20})`);
+
+  lineLegend
+    .append('text')
+    .text(d => d)
+    .attr('transform', 'translate(15,9)'); // align texts with boxes
+
+  lineLegend
+    .append('rect')
+    .attr('fill', (d, i) => colors[i])
+    .attr('width', 10)
+    .attr('height', 10);
 
   // Mouse Movement
   const mouseG = svg.append('g').attr('class', 'mouse-over-effects');
