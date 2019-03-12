@@ -51,7 +51,7 @@ d3.json('data/soilData.json').then((data) => {
 
   arcs
     .append('svg:path')
-    .attr('fill', d => colorScale(d.label)) // set the color for each slice to be chosen from the color function defined above
+    .attr('fill', (d, i) => colorScale(i)) // set the color for each slice to be chosen from the color function defined above
     .attr('d', arc); // this creates the actual SVG path using the associated data (pie) with the arc drawing function
 
   arcs
