@@ -26,19 +26,19 @@ function drawPie(pieData, index) {
   d3.select('svg')
     .append('g')
     .attr('class', index) // make a group to hold our pie chart
-    .attr('transform', `translate(${(index + 1) * 100},${(index + 1) * 100})`);
+    .attr('transform', `translate(${(index + 1) * 140}, ${100}  )`)
 
   // Create a path element and set its d attribute
-  d3.select('g')
+
     .selectAll('path')
     .data(arcData)
     .enter()
     .append('path')
     .attr('d', arcGenerator)
-    .attr('fill', (d, i) => colorScale(i)); // set the color for each slice to be chosen from the color function defined above
+    .attr('fill', (d, i) => colorScale(i)) // set the color for each slice to be chosen from the color function defined above
 
   //   // Labels
-  d3.select('g')
+
     .selectAll('text')
     .data(arcData)
     .enter()
