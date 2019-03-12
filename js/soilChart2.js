@@ -37,20 +37,31 @@ function drawPie(pieData, index) {
     .attr('d', arcGenerator)
     .attr('fill', (d, i) => colorScale(i)) // set the color for each slice to be chosen from the color function defined above
 
-  //   // Labels
-
-    .selectAll('text')
-    .data(arcData)
-    .enter()
+    // Labels
+    // d3.select(`g${index}`)
+    //   .selectAll('path')
+    //   .selectAll('text')
+    //   .data(arcData)
+    //   .enter()
     .append('text')
-    .each(function (d) {
-      const centroid = arcGenerator.centroid(d);
-      d3.select(this)
-        .attr('x', centroid[0])
-        .attr('y', centroid[1])
-        .attr('dy', '0.33em')
-        .text(d.data.label);
-    });
+    .attr('transform', (d) => {
+      // set the label's origin to the center of the arc
+      // we have to make sure to set these before calling arc.centroid
+      d.innerRadius = 0;
+      d.outerRadius = r;
+      return `translate(${arc.centroid(d)})`; // this gives us a pair of coordinates like [50, 50]
+    })
+    .attr('text-anchor', 'middle') // center the text on it's origin
+    .text((d, i) => d.pieData[i].label); // get the label from our original data array
+
+  // .each((d, i, nodes) => {
+  //   const centroid = arcGenerator.centroid(d);
+  //   d3.select(nodes[i])
+  //     .attr('x', centroid[0])
+  //     .attr('y', centroid[1])
+  //     .attr('dy', '0.33em')
+  //     .text(d.pieData.label);
+  // });
 }
 
 d3.json('data/soilData.json').then((data) => {
@@ -72,13 +83,4 @@ d3.json('data/soilData.json').then((data) => {
   });
   console.log(pieCharts);
   pieCharts.forEach((chart, i) => drawPie(chart, i));
-
-  // const newData = [
-  //   { label: 'clay', value: 34 },
-  //   { label: 'sand', value: 34 },
-  //   { label: 'organic', value: 1 },
-  //   { label: 'Other', value: 31 },
-  // ];
-
-  // Create an arc generator with configuration
 });
