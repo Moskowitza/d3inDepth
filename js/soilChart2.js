@@ -1,6 +1,6 @@
-const w = 600; // width
-const h = 600; // height
-const r = 100; // radius
+const w = 600; // width of SVG
+const h = 600; // height of SVG
+const r = 100; // radius of a pieChart
 const colorScale = d3
   .scaleOrdinal()
   .domain(['clay', 'sand', 'organic', 'other'])
@@ -8,66 +8,64 @@ const colorScale = d3
 // Make our SVG canvas
 d3.select('#soilChart')
   .append('svg') // create the SVG element inside the <body>
-  .attr('width', w) // set the width and height of our visualization (these will be attributes of the <svg> tag
-  .attr('height', h);
+  .attr('height', h)
+  .attr('width', w); // set the width and height of our visualization (these will be attributes of the <svg> tag
 
+// Function to add pieChart for each
 function drawPie(pieData, index) {
   console.log(index);
   console.log(pieData);
+
+  // Pie Generator made up of arc paths
   const pieGenerator = d3.pie().value(d => d.value);
-  // .sort((a, b) => a.label.localeCompare(b.label));
+
+  // arc Generator to make  Paths (d attribute)
   const arcGenerator = d3
     .arc()
     .innerRadius(0)
     .outerRadius(100);
 
+  // pass our data into the Pie Generator
   const arcData = pieGenerator(pieData);
 
+  // Select the Parent SVG
   d3.select('svg')
-    .append('g')
+    .append('g') // A g will hold the arc paths and labels
     .attr('class', index) // make a group to hold our pie chart
-    .attr('transform', `translate(${(index + 1) * 140}, ${100}  )`)
-
-  // Create a path element and set its d attribute
-
-    .selectAll('path')
+    .attr('transform', `translate(${index === 0 ? r : index * r * 2 + r}, ${100})`)
+    .selectAll('path') // We'll bind all data to the paths
     .data(arcData)
     .enter()
-    .append('path')
-    .attr('d', arcGenerator)
-    .attr('fill', (d, i) => colorScale(i)) // set the color for each slice to be chosen from the color function defined above
+    .append('path') // on enter, create new path
+    .attr('d', arcGenerator) // shape of path is arc
+    .attr('fill', (d, i) => colorScale(i)); // set the color for each slice to be chosen from the color function defined above
 
-    // Labels
-    // d3.select(`g${index}`)
-    //   .selectAll('path')
-    //   .selectAll('text')
-    //   .data(arcData)
-    //   .enter()
+  //   // Labels
+  // Labels
+  d3.select('g')
+    .selectAll('text')
+    .data(arcData)
+    .enter()
     .append('text')
-    .attr('transform', (d) => {
-      // set the label's origin to the center of the arc
-      // we have to make sure to set these before calling arc.centroid
-      d.innerRadius = 0;
-      d.outerRadius = r;
-      return `translate(${arc.centroid(d)})`; // this gives us a pair of coordinates like [50, 50]
-    })
-    .attr('text-anchor', 'middle') // center the text on it's origin
-    .text((d, i) => d.pieData[i].label); // get the label from our original data array
-
-  // .each((d, i, nodes) => {
-  //   const centroid = arcGenerator.centroid(d);
-  //   d3.select(nodes[i])
-  //     .attr('x', centroid[0])
-  //     .attr('y', centroid[1])
-  //     .attr('dy', '0.33em')
-  //     .text(d.pieData.label);
-  // });
+    .each(function (d) {
+      const centroid = arcGenerator.centroid(d);
+      d3.select(this)
+        .attr('x', centroid[0])
+        .attr('y', centroid[1])
+        .attr('dy', '0.33em')
+        .text(d => d.data.label);
+    });
 }
 
 d3.json('data/soilData.json').then((data) => {
-  // Make a pie chart of percentages
-
-  // const color = d3.schemeCategory20; // builtin range of colors
+  /*
+  const chart = [
+    { label: 'clay', value: 34 },
+    { label: 'sand', value: 34 },
+    { label: 'organic', value: 1 },
+    { label: 'Other', value: 31 },
+  ];
+*/
   const pieCharts = [];
   data.forEach((d) => {
     pieCharts.push([
