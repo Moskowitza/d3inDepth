@@ -47,6 +47,7 @@ function drawPie(pieData, index) {
     .data(arcData)
     .enter()
     .append('text')
+    // eslint-disable-next-line func-names
     .each(function (d) {
       const centroid = arcGenerator.centroid(d);
       d3.select(this)
