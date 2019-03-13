@@ -54,7 +54,10 @@ function drawPie(pieData, index) {
         .attr('x', centroid[0])
         .attr('y', centroid[1])
         .attr('dy', '0.33em')
-        .text(d => d.data.label);
+        .text(
+          d => `${d.data.label}
+         ${d.data.value >= 10 ? d.data.value : ''}${d.data.value >= 10 ? '%' : ''}`,
+        );
     });
 }
 
