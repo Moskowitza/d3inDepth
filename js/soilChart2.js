@@ -42,7 +42,7 @@ function drawPie(pieData, index) {
 
   //   // Labels
   // Labels
-  d3.select('g')
+  d3.selectAll('g')
     .selectAll('text')
     .data(arcData)
     .enter()
