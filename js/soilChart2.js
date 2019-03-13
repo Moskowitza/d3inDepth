@@ -85,4 +85,16 @@ d3.json('data/soilData.json').then((data) => {
   });
   console.log(pieCharts);
   pieCharts.forEach((chart, i) => drawPie(chart, i));
+
+  d3.select('svg')
+    .selectAll('g')
+    .append('text')
+    .select('text')
+    .data(data)
+    .enter()
+    .append('text')
+    .attr('x', (d, i) => `${i === 0 ? r : i * r * 2 + r}`)
+    .attr('y', 2 * r + 10)
+    .style('fill', 'black')
+    .text(d => d.compnam);
 });
